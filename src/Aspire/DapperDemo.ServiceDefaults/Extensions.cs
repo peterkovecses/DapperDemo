@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ServiceDiscovery;
-using Npgsql;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -63,7 +61,7 @@ public static class Extensions
                 tracing.AddSource(builder.Environment.ApplicationName)
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddNpgsql();
+                    .AddSqlClientInstrumentation();
             });
 
         builder.AddOpenTelemetryExporters();

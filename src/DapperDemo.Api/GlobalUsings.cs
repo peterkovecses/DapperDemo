@@ -9,4 +9,4 @@ global using Serilog;
 global using Serilog.Core;
 global using Serilog.Events;
 global using Dapper;
-global using Npgsql;
+global using Microsoft.Data.SqlClient;

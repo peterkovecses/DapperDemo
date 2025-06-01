@@ -13,7 +13,18 @@ public static class Query
                            FROM products p
                            JOIN product_categories c ON p.category_id = c.id
                            """;
-        var products = await dbConnection.QueryAsync<ProductListViewDto>(sql);
+
+        IEnumerable<ProductListViewDto> products;
+        
+        try
+        {
+            products = await dbConnection.QueryAsync<ProductListViewDto>(sql);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         
         return Results.Ok(products);
     }

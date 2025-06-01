@@ -1,17 +1,16 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgresUsername = builder.AddParameter("postgres-username", secret: true);
-var postgresPassword = builder.AddParameter("postgres-password", secret: true);
+var sql = builder.AddSqlServer("sql")
+    .WithDataVolume();
 
-var postgres = builder
-    .AddPostgres("postgres", postgresUsername, postgresPassword)
-    .WithDataVolume()
-    .WithPgAdmin();
+var sqlScriptPath = Path.Combine(AppContext.BaseDirectory, "Scripts", "init.sql");
+var sqlScriptContent = await File.ReadAllTextAsync(sqlScriptPath);
 
-var postgresDb = postgres.AddDatabase("dapper-demo-db");
+var sqlDb = sql.AddDatabase("app-db")
+    .WithCreationScript(sqlScriptContent);
 
 builder.AddProject<Projects.DapperDemo_Api>("dapper-demo-api", launchProfileName: "https")
-    .WithReference(postgresDb)
-    .WaitFor(postgresDb);
+    .WithReference(sqlDb)
+    .WaitFor(sqlDb);
 
 builder.Build().Run();
