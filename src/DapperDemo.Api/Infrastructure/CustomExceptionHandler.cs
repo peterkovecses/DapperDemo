@@ -14,7 +14,7 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
             Type = exception.GetType().Name,
             Title = error.Title,
             Status = error.StatusCode,
-            Detail = exception.Message
+            Detail = error.Detail,
         };
 
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
@@ -25,10 +25,10 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
         });
     }
     
-    private static (int StatusCode, string Title) MapException(Exception exception)
+    private static (int StatusCode, string Title, string Detail) MapException(Exception exception)
         => exception switch
         {
-            BadHttpRequestException => (StatusCodes.Status400BadRequest, "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.1"),
-            _ => (StatusCodes.Status500InternalServerError, "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.1")
+            BadHttpRequestException badRequestException => (StatusCodes.Status400BadRequest, "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.1", badRequestException.GetDetail()),
+            _ => (StatusCodes.Status500InternalServerError, "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.1", exception.Message)
         };
 }

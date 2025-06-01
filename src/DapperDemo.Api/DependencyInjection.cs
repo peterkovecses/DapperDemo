@@ -17,7 +17,7 @@ public static class DependencyInjection
         
         services.Configure<RouteHandlerOptions>(options =>
         {
-            options.ThrowOnBadRequest = true; // Ez a kulcsfontosságú beállítás
+            options.ThrowOnBadRequest = true;
         });
         
         services.AddValidatorsFromAssemblyContaining<CreateProductRequestValidator>();

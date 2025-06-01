@@ -1,8 +1,8 @@
 namespace DapperDemo.Api.Endpoints.Product.CreateProduct;
 
-public abstract class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
+public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
 {
-    protected CreateProductRequestValidator()
+    public CreateProductRequestValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
