@@ -8,7 +8,7 @@ POST {{rootUrl}}
 Content-Type: application/json
 
 {
-  "name": "New Product",
+  "name": "New Product3",
   "description": "Description of new product",
   "categoryId": "A1B2C3D4-E5F6-7890-1234-567890ABCDEF",
   "price": 99.99

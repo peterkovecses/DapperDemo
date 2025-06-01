@@ -6,7 +6,7 @@ public static class CreateProductCommand
     {
         var parameters = new
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             request.Name,
             request.Description,
             request.CategoryId,
@@ -16,6 +16,14 @@ public static class CreateProductCommand
         const string spName = "dbo.spCreateProduct";
         await dbConnection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
         
-        return Results.Created($"/api/products/{parameters.Id}", parameters);
+        var response = new CreateProductResponse(
+            parameters.Id,
+            request.Name,
+            request.Description,
+            request.CategoryId,
+            request.Price
+        );
+
+        return Results.Created($"/api/products/{response.Id}", response);
     }
 }
