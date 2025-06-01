@@ -90,3 +90,21 @@ IF NOT EXISTS (SELECT 1
                 'Modern LED desk lamp.', 35.00);
     END
 GO
+
+IF OBJECT_ID('dbo.spCreateProduct', 'P') IS NULL
+    BEGIN
+        EXEC ('
+    CREATE PROCEDURE dbo.spCreateProduct
+        @Id UNIQUEIDENTIFIER,
+        @Name NVARCHAR(255),
+        @Description NVARCHAR(MAX),
+        @CategoryId UNIQUEIDENTIFIER,
+        @Price DECIMAL(18,2)
+    AS
+    BEGIN
+        INSERT INTO dbo.products (id, name, description, category_id, price)
+        VALUES (@Id, @Name, @Description, @CategoryId, @Price);
+    END
+    ')
+    END
+GO

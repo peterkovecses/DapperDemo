@@ -2,3 +2,14 @@
 
 ###
 GET {{rootUrl}}
+
+###
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "name": "New Product2",
+  "description": "Description of new product",
+  "categoryId": "",
+  "price": 99.99
+}

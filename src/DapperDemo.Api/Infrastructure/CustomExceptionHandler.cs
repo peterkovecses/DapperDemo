@@ -28,6 +28,7 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
     private static (int StatusCode, string Title) MapException(Exception exception)
         => exception switch
         {
+            BadHttpRequestException => (StatusCodes.Status400BadRequest, "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.1"),
             _ => (StatusCodes.Status500InternalServerError, "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.1")
         };
 }

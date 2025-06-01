@@ -8,5 +8,5 @@ app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseHttpsRedirection();
-app.MapGetProducts();
+app.MapEndpoints();
 app.Run();
