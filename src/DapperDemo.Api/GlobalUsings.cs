@@ -1,0 +1,12 @@
+global using DapperDemo.Api;
+global using DapperDemo.Api.Logging;
+global using DapperDemo.Api.Endpoints.Product.GetProducts;
+global using System.Data;
+global using System.Diagnostics;
+global using Microsoft.AspNetCore.Diagnostics;
+global using Microsoft.AspNetCore.Mvc;
+global using Serilog;
+global using Serilog.Core;
+global using Serilog.Events;
+global using Dapper;
+global using Npgsql;
