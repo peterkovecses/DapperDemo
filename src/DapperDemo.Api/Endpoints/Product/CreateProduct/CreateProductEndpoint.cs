@@ -4,7 +4,7 @@ public static class CreateProductEndpoint
 {
     public static IEndpointRouteBuilder MapCreateProduct(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost("/api/products", CreateProductCommand.HandleAsync)
+        endpoints.MapPost("/api/products", CreateProductRequestHandler.HandleAsync)
             .WithName("CreateProduct")
             .WithTags("Products")
             .AddEndpointFilter<ValidationFilter<CreateProductRequest>>();

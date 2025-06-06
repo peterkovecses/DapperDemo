@@ -1,6 +1,6 @@
 namespace DapperDemo.Api.Endpoints.Product.CreateProduct;
 
-public static class CreateProductCommand
+public static class CreateProductRequestHandler
 {
     public static async Task<IResult> HandleAsync(CreateProductRequest request, IDbConnection dbConnection)
     {
