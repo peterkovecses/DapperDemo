@@ -4,7 +4,7 @@ public static class GetProductQuery
 {
     public static async Task<IResult> HandleAsync(IDbConnection dbConnection)
     {
-        const string sql = """
+        const string query = """
                            SELECT 
                                p.id AS Id,
                                p.name AS Name,
@@ -14,7 +14,7 @@ public static class GetProductQuery
                            JOIN product_categories c ON p.category_id = c.id
                            """;
 
-        var products = await dbConnection.QueryAsync<ProductListViewDto>(sql);
+        var products = await dbConnection.QueryAsync<ProductListViewDto>(query);
         
         return Results.Ok(products);
     }
