@@ -18,10 +18,10 @@ public static class CreateProductRequestHandler
         
         var response = new CreateProductResponse(
             parameters.Id,
-            request.Name,
-            request.Description,
-            request.CategoryId,
-            request.Price
+            parameters.Name,
+            parameters.Description,
+            parameters.CategoryId,
+            parameters.Price
         );
 
         return Results.Created($"/api/products/{response.Id}", response);

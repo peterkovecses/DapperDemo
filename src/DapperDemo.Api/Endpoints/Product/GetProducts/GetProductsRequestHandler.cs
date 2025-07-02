@@ -1,6 +1,6 @@
 namespace DapperDemo.Api.Endpoints.Product.GetProducts;
 
-public static class GetProductRequestHandler
+public static class GetProductsRequestHandler
 {
     public static async Task<IResult> HandleAsync(IDbConnection dbConnection)
     {
