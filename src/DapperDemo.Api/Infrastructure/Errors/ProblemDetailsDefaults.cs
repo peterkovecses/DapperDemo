@@ -1,4 +1,4 @@
-namespace DapperDemo.Api.Infrastructure;
+namespace DapperDemo.Api.Infrastructure.Errors;
 
 public static class ProblemDetailsDefaults
 {

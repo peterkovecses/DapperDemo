@@ -1,3 +1,5 @@
+using DapperDemo.Api.Infrastructure.Errors;
+
 namespace DapperDemo.Api;
 
 public static class DependencyInjection
@@ -5,7 +7,8 @@ public static class DependencyInjection
     public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
         services.AddProblemDetails();
-        services.AddExceptionHandler<CustomExceptionHandler>();
+        services.AddExceptionHandler<BadRequestExceptionHandler>();
+        services.AddExceptionHandler<UnhandledExceptionHandler>();
         
         services.AddScoped<IDbConnection>(sp =>
         {
