@@ -6,14 +6,14 @@ public static class ExceptionExtensions
     {
         var (statusCode, detail) = exception switch
         {
-            BadHttpRequestException badRequestException => (StatusCodes.Status400BadRequest,
+            BadHttpRequestException => (StatusCodes.Status400BadRequest,
                 "The request could not be processed due to malformed input."),
             _ => (StatusCodes.Status500InternalServerError,
                 env.IsProduction() ? "An error occurred while processing your request." : exception.Message)
         };
         
         var (type, title) = GetProblemDefinition(statusCode);
-        if (statusCode != StatusCodes.Status400BadRequest) return Problem(statusCode, type, title, detail);
+        if (statusCode is not StatusCodes.Status400BadRequest) return Problem(statusCode, type, title, detail);
         var errors = GetErrors(exception);
 
         return ValidationProblem(statusCode, type, title, detail, errors);
@@ -35,7 +35,6 @@ public static class ExceptionExtensions
     }
 
     private static Dictionary<string, string[]> GetErrors(Exception exception)
-
     {
         var jsonEx = exception.GetInnerMost<JsonException>();
         if (jsonEx is null || string.IsNullOrEmpty(jsonEx.Path)) return [];
