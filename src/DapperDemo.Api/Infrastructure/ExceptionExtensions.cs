@@ -12,15 +12,15 @@ public static class ExceptionExtensions
                 env.IsProduction() ? "An error occurred while processing your request." : exception.Message)
         };
         
-        var defaults = GetDefaults(statusCode);
-        if (statusCode != StatusCodes.Status400BadRequest) return Problem(statusCode, defaults, detail);
-        var errors = GetErrors(exception, statusCode);
+        var (type, title) = GetProblemDefinition(statusCode);
+        if (statusCode != StatusCodes.Status400BadRequest) return Problem(statusCode, type, title, detail);
+        var errors = GetErrors(exception);
 
-        return ValidationProblem(statusCode, defaults, detail, errors);
+        return ValidationProblem(statusCode, type, title, detail, errors);
 
     }
 
-    private static (string Type, string Title) GetDefaults(int statusCode)
+    private static (string Type, string Title) GetProblemDefinition(int statusCode)
     {
         if (ProblemDetailsDefaults.Defaults.TryGetValue(statusCode, out var defaults)) return defaults;
         var title = ReasonPhrases.GetReasonPhrase(statusCode);
@@ -34,7 +34,7 @@ public static class ExceptionExtensions
         return defaults;
     }
 
-    private static Dictionary<string, string[]> GetErrors(Exception exception, int statusCode)
+    private static Dictionary<string, string[]> GetErrors(Exception exception)
 
     {
         var jsonEx = exception.GetInnerMost<JsonException>();
@@ -66,22 +66,22 @@ public static class ExceptionExtensions
         return $"{ex.Message} {path}".Trim();
     }
 
-    private static ProblemDetails Problem(int statusCode, (string Type, string Title) defaults, string detail) =>
+    private static ProblemDetails Problem(int statusCode, string type, string title, string detail) =>
         new()
         {
             Status = statusCode,
-            Type = defaults.Type,
-            Title = defaults.Title,
+            Type = type,
+            Title = title,
             Detail = detail
         };
 
-    private static ValidationProblemDetails ValidationProblem(int statusCode, (string Type, string Title) defaults, string detail,
+    private static ValidationProblemDetails ValidationProblem(int statusCode, string type, string title, string detail,
         Dictionary<string, string[]> errors) =>
         new(errors)
         {
             Status = statusCode,
-            Type = defaults.Type,
-            Title = defaults.Title,
+            Type = type,
+            Title = title,
             Detail = detail
         };
 }
