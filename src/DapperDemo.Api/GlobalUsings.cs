@@ -7,6 +7,8 @@ global using DapperDemo.Api.Endpoints.Product.GetProducts;
 global using DapperDemo.Api.Endpoints.Product.CreateProduct;
 global using System.Data;
 global using System.Diagnostics;
+global using System.Text.Json;
+global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Data.SqlClient;
