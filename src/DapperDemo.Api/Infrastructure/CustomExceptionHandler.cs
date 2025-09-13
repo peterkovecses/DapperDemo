@@ -8,7 +8,7 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
         CancellationToken cancellationToken)
     {
         logger.LogError(exception, "An exception occurred.");
-        var problem = exception.ToProblem(env);
+        var problem = exception.ToProblem(env.IsProduction());
         httpContext.Response.StatusCode = problem.Status ?? StatusCodes.Status500InternalServerError;
         
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext

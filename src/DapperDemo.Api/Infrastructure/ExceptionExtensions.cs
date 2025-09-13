@@ -2,14 +2,14 @@ namespace DapperDemo.Api.Infrastructure;
 
 public static class ExceptionExtensions
 {
-    public static ProblemDetails ToProblem(this Exception exception, IHostEnvironment env)
+    public static ProblemDetails ToProblem(this Exception exception, bool isProdEnv)
     {
         var (statusCode, detail) = exception switch
         {
             BadHttpRequestException => (StatusCodes.Status400BadRequest,
                 "The request could not be processed due to malformed input."),
             _ => (StatusCodes.Status500InternalServerError,
-                env.IsProduction() ? "An error occurred while processing your request." : exception.Message)
+                isProdEnv ? "An error occurred while processing your request." : exception.Message)
         };
         
         var (type, title) = GetProblemDefinition(statusCode);
