@@ -2,7 +2,7 @@ namespace DapperDemo.Api.Infrastructure;
 
 public static class ProblemDetailsDefaults
 {
-    public static readonly Dictionary<int, (string Type, string Title)> Defaults = new()
+    public static FrozenDictionary<int, (string Type, string Title)> Defaults { get; } = new Dictionary<int, (string, string)>
     {
         [400] =
         (
@@ -98,6 +98,6 @@ public static class ProblemDetailsDefaults
         (
             "https://tools.ietf.org/html/rfc9110#section-15.6.5",
             "Gateway Timeout"
-        ),
-    };
+        )
+    }.ToFrozenDictionary();
 }

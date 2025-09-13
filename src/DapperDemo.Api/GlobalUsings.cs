@@ -12,6 +12,7 @@ global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Data.SqlClient;
+global using System.Collections.Frozen;
 global using Serilog;
 global using Serilog.Core;
 global using Serilog.Events;
