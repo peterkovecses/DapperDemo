@@ -8,17 +8,21 @@ public static class ExceptionExtensions
         {
             BadHttpRequestException badRequestException => (StatusCodes.Status400BadRequest,
                 "The request could not be processed due to malformed input."),
-
             _ => (StatusCodes.Status500InternalServerError,
                 env.IsProduction() ? "An error occurred while processing your request." : exception.Message)
         };
-
+        
+        var defaults = GetDefaults(statusCode);
+        if (statusCode != StatusCodes.Status400BadRequest) return Problem(statusCode, defaults, detail);
         var errors = GetErrors(exception, statusCode);
-        if (ProblemDetailsDefaults.Defaults.TryGetValue(statusCode, out var defaults))
-        {
-            return Problem(statusCode, defaults, detail, errors);
-        }
 
+        return ValidationProblem(statusCode, defaults, detail, errors);
+
+    }
+
+    private static (string Type, string Title) GetDefaults(int statusCode)
+    {
+        if (ProblemDetailsDefaults.Defaults.TryGetValue(statusCode, out var defaults)) return defaults;
         var title = ReasonPhrases.GetReasonPhrase(statusCode);
         if (string.IsNullOrEmpty(title))
         {
@@ -26,24 +30,21 @@ public static class ExceptionExtensions
         }
 
         defaults = ("about:blank", title);
-        
-        return Problem(statusCode, defaults, detail, errors);
+
+        return defaults;
     }
 
-    private static Dictionary<string, string[]>? GetErrors(Exception exception, int statusCode)
+    private static Dictionary<string, string[]> GetErrors(Exception exception, int statusCode)
 
     {
-        Dictionary<string, string[]>? errors = null;
-        if (statusCode != StatusCodes.Status400BadRequest) return errors;
         var jsonEx = exception.GetInnerMost<JsonException>();
-        if (jsonEx is null || string.IsNullOrEmpty(jsonEx.Path)) return errors;
+        if (jsonEx is null || string.IsNullOrEmpty(jsonEx.Path)) return [];
         var propertyName = jsonEx.Path.TrimStart('$', '.');
-        errors = new Dictionary<string, string[]>
+        
+        return new Dictionary<string, string[]>
         {
             [propertyName] = [FormatJsonException(jsonEx)]
         };
-
-        return errors;
     }
 
     private static TException? GetInnerMost<TException>(this Exception exception)
@@ -65,26 +66,22 @@ public static class ExceptionExtensions
         return $"{ex.Message} {path}".Trim();
     }
 
-    private static ProblemDetails Problem(int statusCode, (string Type, string Title) defaults, string detail,
-        Dictionary<string, string[]>? errors)
-    {
-        if (errors is not null && errors.Count > 0)
-        {
-            return new ValidationProblemDetails(errors)
-            {
-                Status = statusCode,
-                Type = defaults.Type,
-                Title = defaults.Title,
-                Detail = detail
-            };
-        }
-
-        return new ProblemDetails
+    private static ProblemDetails Problem(int statusCode, (string Type, string Title) defaults, string detail) =>
+        new()
         {
             Status = statusCode,
             Type = defaults.Type,
             Title = defaults.Title,
             Detail = detail
         };
-    }
+
+    private static ValidationProblemDetails ValidationProblem(int statusCode, (string Type, string Title) defaults, string detail,
+        Dictionary<string, string[]> errors) =>
+        new(errors)
+        {
+            Status = statusCode,
+            Type = defaults.Type,
+            Title = defaults.Title,
+            Detail = detail
+        };
 }
