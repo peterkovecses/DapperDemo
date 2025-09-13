@@ -2,25 +2,6 @@ namespace DapperDemo.Api.Infrastructure;
 
 public static class ExceptionExtensions
 {
-    private static TException? GetInnerMost<TException>(this Exception exception)
-        where TException : Exception
-    {
-        while (exception.InnerException is not null)
-        {
-            exception = exception.InnerException;
-            if (exception is TException target) return target;
-        }
-
-        return null;
-    }
-
-    private static string FormatJsonException(JsonException ex)
-    {
-        var path = ex.Path is not null ? $"Path: {ex.Path}. " : "";
-        
-        return $"{ex.Message} {path}".Trim();
-    }
-    
     public static ProblemDetails ToProblem(this Exception exception, IHostEnvironment env)
     {
         var (statusCode, detail) = exception switch
@@ -45,15 +26,6 @@ public static class ExceptionExtensions
         return Problem(statusCode, defaults, detail);
     }
 
-    private static ProblemDetails Problem(int statusCode, (string Type, string Title) defaults, string detail) =>
-        new()
-        {
-            Status = statusCode,
-            Type = defaults.Type,
-            Title = defaults.Title,
-            Detail = detail
-        };
-
     private static string GetDetail(this BadHttpRequestException exception, bool includeDeveloperDetails = false)
     {
         var jsonException = exception.GetInnerMost<JsonException>();
@@ -62,4 +34,32 @@ public static class ExceptionExtensions
             ? FormatJsonException(jsonException)
             : "The request could not be processed due to malformed input.";
     }
+    
+    private static TException? GetInnerMost<TException>(this Exception exception)
+        where TException : Exception
+    {
+        while (exception.InnerException is not null)
+        {
+            exception = exception.InnerException;
+            if (exception is TException target) return target;
+        }
+
+        return null;
+    }
+
+    private static string FormatJsonException(JsonException ex)
+    {
+        var path = ex.Path is not null ? $"Path: {ex.Path}. " : "";
+        
+        return $"{ex.Message} {path}".Trim();
+    }
+    
+    private static ProblemDetails Problem(int statusCode, (string Type, string Title) defaults, string detail) =>
+        new()
+        {
+            Status = statusCode,
+            Type = defaults.Type,
+            Title = defaults.Title,
+            Detail = detail
+        };
 }
