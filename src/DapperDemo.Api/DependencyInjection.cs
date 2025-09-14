@@ -8,7 +8,7 @@ public static class DependencyInjection
     {
         services.AddProblemDetails();
         services.AddExceptionHandler<BadRequestExceptionHandler>();
-        services.AddExceptionHandler<UnhandledExceptionHandler>();
+        services.AddExceptionHandler<DefaultExceptionHandler>();
         
         services.AddScoped<IDbConnection>(sp =>
         {

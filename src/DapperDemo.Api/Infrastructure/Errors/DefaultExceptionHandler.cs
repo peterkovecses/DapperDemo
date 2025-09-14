@@ -1,6 +1,6 @@
 namespace DapperDemo.Api.Infrastructure.Errors;
 
-public class UnhandledExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<UnhandledExceptionHandler> logger, IHostEnvironment env) : IExceptionHandler
+public class DefaultExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<DefaultExceptionHandler> logger, IHostEnvironment env) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
