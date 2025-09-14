@@ -15,16 +15,7 @@ public class BadRequestExceptionHandler(IProblemDetailsService problemDetailsSer
         {
             Exception = exception,
             HttpContext = httpContext,
-            ProblemDetails = GetProblem(badRequestException)
+            ProblemDetails = badRequestException.ToProblem()
         });
-    }
-
-    private static ValidationProblemDetails GetProblem(BadHttpRequestException exception)
-    {
-        var (type, title) = Problem.GetDefinition(StatusCodes.Status400BadRequest);
-        var errors = exception.ExtractJsonErrors();
-        const string detail = "The request could not be processed due to malformed input.";
-        
-        return Problem.CreateValidationProblem(StatusCodes.Status400BadRequest, type, title, detail, errors);        
     }
 }

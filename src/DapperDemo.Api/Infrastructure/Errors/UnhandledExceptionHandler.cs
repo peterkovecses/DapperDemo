@@ -13,15 +13,7 @@ public class UnhandledExceptionHandler(IProblemDetailsService problemDetailsServ
         {
             Exception = exception,
             HttpContext = httpContext,
-            ProblemDetails = GetProblem(exception, env)
+            ProblemDetails = exception.ToProblem(env.IsProduction())
         });
-    }
-    
-    private static ProblemDetails GetProblem(Exception exception, IHostEnvironment env)
-    {
-        var (type, title) = Problem.GetDefinition(StatusCodes.Status500InternalServerError);
-        var detail = env.IsProduction() ? "An error occurred while processing your request." : exception.Message;
-        
-        return Problem.Create(StatusCodes.Status500InternalServerError, type, title, detail);      
     }
 }
