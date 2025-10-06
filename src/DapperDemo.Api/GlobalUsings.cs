@@ -1,6 +1,6 @@
 global using DapperDemo.Api;
 global using DapperDemo.Api.Logging;
-global using DapperDemo.Api.Infrastructure;
+global using DapperDemo.Api.Infrastructure.Errors;
 global using DapperDemo.Api.Validation;
 global using DapperDemo.Api.Endpoints;
 global using DapperDemo.Api.Endpoints.Product.GetProducts;

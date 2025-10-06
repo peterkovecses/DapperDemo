@@ -3,7 +3,7 @@ using DapperDemo.ServiceDefaults;
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.ConfigureLogging();
-builder.Services.RegisterServices();
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();
