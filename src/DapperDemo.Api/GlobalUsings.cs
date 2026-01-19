@@ -5,6 +5,7 @@ global using DapperDemo.Api.Validation;
 global using DapperDemo.Api.Endpoints;
 global using DapperDemo.Api.Endpoints.Product.GetProducts;
 global using DapperDemo.Api.Endpoints.Product.CreateProduct;
+global using DapperDemo.ServiceDefaults;
 global using System.Data;
 global using System.Diagnostics;
 global using System.Text.Json;

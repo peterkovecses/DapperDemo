@@ -1,5 +1,89 @@
+############################
+# .NET / Build output
+############################
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+out/
+artifacts/
+packages/
+
+############################
+# User-specific files
+############################
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+############################
+# Rider / JetBrains
+############################
+.idea/
+*.iml
+.rider/
+.rider/*
+_ReSharper.Caches/
+
+############################
+# VS Code
+############################
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+############################
+# GitHub Copilot
+############################
+.copilot/
+.copilot-chat/
+.copilot-history/
+
+############################
+# OS-specific
+############################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+############################
+# Logs / temp
+############################
+*.log
+*.tmp
+*.temp
+
+############################
+# Test results / coverage
+############################
+TestResults/
+*.trx
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+
+############################
+# ASP.NET / tooling
+############################
+wwwroot/lib/
+appsettings.*.local.json
+secrets.json
+
+############################
+# Docker
+############################
+docker-compose.override.yml
+.env
+.env.*
+
+############################
+# NuGet
+############################
+.nuget/packages/
